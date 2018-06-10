@@ -423,8 +423,8 @@ status_t HWComposer::queryDisplayProperties(int disp) {
         mDisplayData[disp].configs.push_back(config);
     }
 
-    // FIXME: what should we set the format to?
-    mDisplayData[disp].format = HAL_PIXEL_FORMAT_RGBA_8888;
+    // FIXME: Use pixel format native to amdgpu, i965, nouveau HW
+    mDisplayData[disp].format = HAL_PIXEL_FORMAT_BGRA_8888;
     mDisplayData[disp].connected = true;
     return NO_ERROR;
 }
@@ -486,7 +486,8 @@ sp<Fence> HWComposer::getDisplayFence(int disp) const {
 
 uint32_t HWComposer::getFormat(int disp) const {
     if (static_cast<uint32_t>(disp) >= MAX_HWC_DISPLAYS || !mAllocatedDisplayIDs.hasBit(disp)) {
-        return HAL_PIXEL_FORMAT_RGBA_8888;
+        // FIXME: Use pixel format native to amdgpu, i965, nouveau HW
+        return HAL_PIXEL_FORMAT_BGRA_8888;
     } else {
         return mDisplayData[disp].format;
     }
@@ -850,10 +851,10 @@ void HWComposer::disconnectDisplay(int disp) {
 
 int HWComposer::getVisualID() const {
     if (mHwc && hwcHasApiVersion(mHwc, HWC_DEVICE_API_VERSION_1_1)) {
-        // FIXME: temporary hack until HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED
-        // is supported by the implementation. we can only be in this case
-        // if we have HWC 1.1
-        return HAL_PIXEL_FORMAT_RGBA_8888;
+        // FIXME: Use pixel format native to amdgpu, i965, nouveau HW
+        // to be replaced by HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED
+        // we can only be in this case if we have HWC 1.1
+        return HAL_PIXEL_FORMAT_BGRA_8888;
         //return HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED;
     } else {
         return mFbDev->format;
