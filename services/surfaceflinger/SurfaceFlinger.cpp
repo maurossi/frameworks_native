@@ -590,7 +590,7 @@ void SurfaceFlinger::init() {
 
     // Get a RenderEngine for the given display / config (can't fail)
     mRenderEngine = RenderEngine::create(mEGLDisplay,
-            HAL_PIXEL_FORMAT_RGBA_8888,
+            HAL_PIXEL_FORMAT_BGRA_8888,
             hasWideColorDisplay ? RenderEngine::WIDE_COLOR_SUPPORT : 0);
 
     // retrieve the EGL context that was selected/created
@@ -4235,7 +4235,7 @@ static status_t getWindowBuffer(ANativeWindow* window, uint32_t requestedWidth,
     int err = 0;
     err = native_window_set_buffers_dimensions(window, requestedWidth, requestedHeight);
     err |= native_window_set_scaling_mode(window, NATIVE_WINDOW_SCALING_MODE_SCALE_TO_WINDOW);
-    err |= native_window_set_buffers_format(window, HAL_PIXEL_FORMAT_RGBA_8888);
+    err |= native_window_set_buffers_format(window, HAL_PIXEL_FORMAT_BGRA_8888);
     err |= native_window_set_usage(window, usage);
 
     if (hasWideColorDisplay) {
