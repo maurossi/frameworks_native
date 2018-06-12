@@ -380,7 +380,7 @@ DisplayDevice::DisplayDevice(
     EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (config == EGL_NO_CONFIG) {
 #ifdef USE_HWC2
-        config = RenderEngine::chooseEglConfig(display, PIXEL_FORMAT_RGBA_8888,
+        config = RenderEngine::chooseEglConfig(display, PIXEL_FORMAT_BGRA_8888,
                                                /*logConfig*/ false);
 #else
         config = RenderEngine::chooseEglConfig(display, format,
