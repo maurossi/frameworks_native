@@ -1034,7 +1034,7 @@ Error HWC2On1Adapter::Display::getClientTargetSupport(uint32_t width, uint32_t h
 
     if (width == mActiveConfig->getAttribute(Attribute::Width) &&
             height == mActiveConfig->getAttribute(Attribute::Height) &&
-            format == HAL_PIXEL_FORMAT_RGBA_8888 &&
+            format == HAL_PIXEL_FORMAT_BGRA_8888 &&
             dataspace == HAL_DATASPACE_UNKNOWN) {
         return Error::None;
     }
@@ -1410,7 +1410,7 @@ static std::string frectString(hwc_frect_t frect) {
 
 static std::string colorString(hwc_color_t color) {
     std::stringstream output;
-    output << "RGBA [";
+    output << "BGRA [";
     output << static_cast<int32_t>(color.r) << ", ";
     output << static_cast<int32_t>(color.g) << ", ";
     output << static_cast<int32_t>(color.b) << ", ";
