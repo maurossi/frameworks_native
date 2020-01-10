@@ -387,7 +387,15 @@ static void* load_system_driver(const char* kind) {
             //      libGLES_*.so, or:
             //      libEGL_*.so, libGLESv1_CM_*.so, libGLESv2_*.so
 
-            pattern.append("_");
+            // in android-x86 we look for:
+            //      libGLES_mesa_prime_fd*.so with gralloc.{intel,minigbm}
+            //      libGLES_mesa_drm_gralloc*.so with gralloc.{drm,gbm}
+
+            char gralloc_prop[PROPERTY_VALUE_MAX];
+            if (property_get("ro.hardware.gralloc", gralloc_prop, nullptr) > 4 || property_get("ro.hardware.hwcomposer", gralloc_prop, nullptr) > 0)
+                pattern.append("_mesa_prime_fd");
+            else
+                pattern.append("_mesa_drm_gralloc");
             for (size_t i=0 ; i<NELEM(searchPaths) ; i++) {
                 if (find(result, pattern, searchPaths[i], false)) {
                     return result;
